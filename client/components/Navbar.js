@@ -108,7 +108,7 @@ const Navbar = () => {
 				<div className='flex text-lg '>
 					{pages.map((page, i) => (
 						<Link key={i} href={page.path}>
-							<div className='flex items-center px-4 justify-center rounded-full cursor-pointer transition duration-500 ease-in-out h-12 w-24 hover:bg-gray-800 hover:text-gray-200 hover:shadow-xl'>
+							<div className='flex items-center px-4 justify-center rounded-full cursor-pointer h-12 w-24'>
 								{page.name}
 							</div>
 						</Link>

@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 const Hero = () => {
 	return (
 		<div className='flex px-40 gap-x-20'>
@@ -17,12 +19,16 @@ const Hero = () => {
 					excepturi fugit quasi distinctio ea?
 				</div>
 				<div className='flex gap-x-8'>
-					<button className='p-4 text-black font-bold rounded-lg bg-green-400'>
-						Explore NFTs
-					</button>
-					<button className='p-4 font-bold rounded-lg bg-gray-900 '>
-						List an NFT
-					</button>
+					<Link href='/explore'>
+						<button className='p-4 text-black font-bold rounded-lg bg-green-400'>
+							Explore NFTs
+						</button>
+					</Link>
+					<Link href='/create'>
+						<button className='p-4 font-bold rounded-lg bg-gray-900 '>
+							List an NFT
+						</button>
+					</Link>
 				</div>
 			</div>
 			<div className='flex flex-col gap-y-4 mx-40'>

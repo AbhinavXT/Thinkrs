@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const Footer = () => {
 	return (
-		<div className='text-gray-200 flex flex-col font-bold text-lg pb-12 px-12 pt-40'>
+		<footer className='text-gray-200 flex flex-col font-bold text-lg pb-12 px-12 pt-40'>
 			<div className='pb-12'>
 				Copyright <span>Thinkers</span> | By NFT people , for NFT people.
 			</div>
@@ -69,7 +69,7 @@ const Footer = () => {
 					</button>
 				</div>
 			</div>
-		</div>
+		</footer>
 	)
 }
 
