@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Hero from '../components/Hero'
 import TopCollections from '../components/TopCollections'
+import Explore from '../components/Explore'
 
 export default function Home() {
 	return (
@@ -11,6 +12,7 @@ export default function Home() {
 			</Head>
 			<Hero />
 			<TopCollections />
+			<Explore />
 		</div>
 	)
 }

@@ -47,7 +47,7 @@ const create = () => {
 	}
 
 	return (
-		<div className='flex justify-center'>
+		<div className='flex justify-center max-h-screen'>
 			<div className='w-1/2 flex flex-col pb-12 mt-20'>
 				<input
 					placeholder='Name'

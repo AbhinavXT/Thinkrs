@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const Footer = () => {
 	return (
-		<footer className='text-gray-200 flex flex-col font-bold text-lg pb-12 px-12 pt-40'>
+		<footer className='relative text-gray-200 flex flex-col font-bold text-lg pb-12 px-12'>
 			<div className='pb-12'>
 				Copyright <span>Thinkers</span> | By NFT people , for NFT people.
 			</div>
