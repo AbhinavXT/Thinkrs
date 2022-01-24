@@ -3,7 +3,6 @@ const Explore = () => {
 		<div>
 			<div></div>
 			<div></div>
-			<div></div>
 		</div>
 	)
 }

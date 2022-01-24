@@ -2,9 +2,12 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
+import Dropdown from './Dropdown'
+
 const Navbar = () => {
 	const [currentAccount, setCurrentAccount] = useState('')
 	const [correctNetwork, setCorrectNetwork] = useState(false)
+	const [dropdown, setDropdown] = useState(false)
 
 	const router = useRouter()
 
@@ -98,7 +101,7 @@ const Navbar = () => {
 
 	return (
 		<div className='h-full py-8 text-white'>
-			<div className='flex items-center px-20 justify-between shadow-xl'>
+			<div className='dropdown relative flex items-center px-20 justify-between shadow-xl'>
 				<Link href='/'>
 					<div className='flex gap-x-4 font-extrabold text-3xl cursor-pointer'>
 						<div>Thinkrs</div>
@@ -136,21 +139,41 @@ const Navbar = () => {
 					</div>
 					<div className='font-bold text-lg'>EN</div>
 				</button>
-				<button
-					className='flex items-center justify-center bg-green-400 h-12 w-12 text-black rounded-full'
-					onClick={connectWallet}
-				>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						width='24'
-						height='24'
-						fill='currentColor'
-						class='bi bi-wallet'
-						viewBox='0 0 16 16'
+				{currentAccount === '' ? (
+					<button
+						className='flex items-center h-[40px] w-20 justify-center bg-green-400 text-black rounded-xl font-bold'
+						onClick={connectWallet}
 					>
-						<path d='M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z' />
-					</svg>
-				</button>
+						Connect
+					</button>
+				) : (
+					<div>
+						<button
+							className='flex items-center justify-center bg-green-400 h-12 w-12 text-black rounded-full'
+							onClick={() =>
+								dropdown ? setDropdown(false) : setDropdown(true)
+							}
+						>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								width='24'
+								height='24'
+								fill='currentColor'
+								className='bi bi-wallet'
+								viewBox='0 0 16 16'
+							>
+								<path d='M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z' />
+							</svg>
+						</button>
+						<div
+							className={`dropdown-menu absolute right-16 top-20 bg-gray-200 rounded-lg text-black ${
+								dropdown ? 'block' : 'hidden'
+							}`}
+						>
+							<Dropdown />
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	)

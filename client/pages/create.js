@@ -47,7 +47,7 @@ const create = () => {
 	}
 
 	return (
-		<div className='flex justify-center max-h-screen'>
+		<div className='flex justify-center max-h-screen pb-[280px] text-white'>
 			<div className='w-1/2 flex flex-col pb-12 mt-20'>
 				<input
 					placeholder='Name'
@@ -63,7 +63,7 @@ const create = () => {
 				<input type='file' name='Asset' className='my-4' onChange={onChange} />
 
 				<button
-					className='font-bold mt-4 bg-gray-800 text-white rounded p-4 shadow-lg'
+					className='font-bold mt-4 bg-gray-800 text-gray-200 rounded p-4 shadow-lg'
 					onClick={onSubmit}
 				>
 					Submit
