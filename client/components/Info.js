@@ -47,7 +47,7 @@ const Info = () => {
 					width='40'
 					height='40'
 					fill='currentColor'
-					class='bi bi-image'
+					className='bi bi-image'
 					viewBox='0 0 16 16'
 				>
 					<path d='M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z' />
@@ -68,7 +68,7 @@ const Info = () => {
 					width='40'
 					height='40'
 					fill='currentColor'
-					class='bi bi-tags-fill'
+					className='bi bi-tags-fill'
 					viewBox='0 0 16 16'
 				>
 					<path d='M2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2zm3.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z' />

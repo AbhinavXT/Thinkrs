@@ -63,7 +63,7 @@ const create = () => {
 				<input type='file' name='Asset' className='my-4' onChange={onChange} />
 
 				<button
-					className='font-bold mt-4 bg-gray-800 text-gray-200 rounded p-4 shadow-lg'
+					className='font-bold mt-4 text-lg bg-gray-800 text-gray-200 rounded p-4 hover:shadow-lg hover:shadow-green-400 hover:scale-[1.01] transtion duration-500'
 					onClick={onSubmit}
 				>
 					Submit
