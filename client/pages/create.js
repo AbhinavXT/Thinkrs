@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
-import { NFTStorage, File } from 'nft.storage'
+
+import { create as ipfsHttpClient } from 'ipfs-http-client'
 
 import axios from 'axios'
 import { ethers } from 'ethers'
@@ -7,25 +8,27 @@ import { ethers } from 'ethers'
 import { nftContractAddress } from '../config'
 import NFT from '../utils/NFT.json'
 
-const API_KEY = process.env.NFT_STORAGE_API_KEY
-
-const client = new NFTStorage({ token: API_KEY })
+const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 const create = () => {
-	const [file, setFile] = useState(``)
-	const [fileType, setFileType] = useState(``)
+	const [fileUrl, setFileUrl] = useState(null)
 	const [tag, setTag] = useState(``)
 	const [description, setDescription] = useState(``)
 
 	const onChange = useCallback(
 		async (e) => {
 			const file = e.target.files[0]
-
-			setFileType(e.target.files[0].type)
-
-			setFile(file)
+			try {
+				const added = await client.add(file, {
+					progress: (prog) => console.log(`received: ${prog}`),
+				})
+				const url = `https://ipfs.infura.io/ipfs/${added.path}`
+				setFileUrl(url)
+			} catch (error) {
+				console.log('Error uploading file: ', error)
+			}
 		},
-		[file]
+		[fileUrl]
 	)
 
 	const onTagChange = useCallback(
@@ -42,27 +45,6 @@ const create = () => {
 		[description]
 	)
 
-	const ipfsUrl = (url) => {
-		return `https://ipfs.io/ipfs/` + url
-	}
-
-	const onSubmit = async () => {
-		const metadata = await client.store({
-			name: tag,
-			description: description,
-			image: new File([file], tag, { type: fileType }),
-		})
-
-		console.log(metadata.url)
-
-		//metadata && mintNFT(metadata)
-		const fileCid = metadata.url.slice(7)
-		const url = ipfsUrl(fileCid)
-		console.log(url)
-
-		url && mintNFT(url)
-	}
-
 	const mintNFT = async (url) => {
 		try {
 			const { ethereum } = window
@@ -76,30 +58,23 @@ const create = () => {
 					signer
 				)
 
-				const res = await axios.get(url)
-				//console.log(res)
+				let nftTx = await nftContract.createToken(url)
+				console.log('Mining....', nftTx.hash)
 
-				const image = await axios.get(res.data.image)
+				let tx = await nftTx.wait()
 
-				console.log(image)
+				let event = tx.events[0]
+				let value = event.args[2]
+				let tokenId = value.toNumber()
 
-				// let nftTx = await nftContract.createToken(image)
-				// console.log('Mining....', nftTx.hash)
+				console.log('Token ID:', tokenId)
 
-				// let tx = await nftTx.wait()
+				let tokenUri = await nftContract.tokenURI(tokenId)
+				console.log('Token URI:', tokenUri)
 
-				// let event = tx.events[0]
-				// let value = event.args[2]
-				// let tokenId = value.toNumber()
-
-				// console.log('Token ID:', tokenId)
-
-				// let tokenUri = await nftContract.tokenURI(tokenId)
-				// console.log('Token URI:', tokenUri)
-
-				// console.log(
-				// 	`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
-				// )
+				console.log(
+					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
+				)
 			} else {
 				console.log("Ethereum object doesn't exist!", error.message)
 			}
@@ -130,9 +105,11 @@ const create = () => {
 					/>
 				</div>
 
+				{fileUrl && <img className='rounded mt-4' width='350' src={fileUrl} />}
+
 				<button
 					className='font-bold mt-4 text-lg bg-gray-800 text-gray-200 rounded p-4 hover:shadow-lg hover:shadow-green-400 hover:scale-[1.01] transtion duration-500'
-					onClick={onSubmit}
+					onClick={() => mintNFT(fileUrl)}
 				>
 					Submit
 				</button>
