@@ -12,16 +12,22 @@ const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 const create = () => {
 	const [fileUrl, setFileUrl] = useState(null)
-	const [tag, setTag] = useState(``)
+	const [name, setName] = useState(``)
 	const [description, setDescription] = useState(``)
+
+	let progress_func = function (len) {
+		console.log('File progress:', len)
+	}
 
 	const onChange = useCallback(
 		async (e) => {
 			const file = e.target.files[0]
 			try {
 				const added = await client.add(file, {
-					progress: (prog) => console.log(`received: ${prog}`),
+					progress: progress_func,
+					pin: true,
 				})
+
 				const url = `https://ipfs.infura.io/ipfs/${added.path}`
 				setFileUrl(url)
 			} catch (error) {
@@ -31,11 +37,11 @@ const create = () => {
 		[fileUrl]
 	)
 
-	const onTagChange = useCallback(
+	const onNameChange = useCallback(
 		(e) => {
-			setTag(e.target.value)
+			setName(e.target.value)
 		},
-		[tag]
+		[name]
 	)
 
 	const onDescriptionChange = useCallback(
@@ -44,6 +50,23 @@ const create = () => {
 		},
 		[description]
 	)
+
+	const submit = async () => {
+		const data = JSON.stringify({
+			name: name,
+			description: description,
+			image: fileUrl,
+		})
+
+		try {
+			const added = await client.add(data)
+			const url = `https://ipfs.infura.io/ipfs/${added.path}`
+
+			mintNFT(url)
+		} catch (error) {
+			console.log('Error uploading file: ', error)
+		}
+	}
 
 	const mintNFT = async (url) => {
 		try {
@@ -57,6 +80,8 @@ const create = () => {
 					NFT.abi,
 					signer
 				)
+
+				console.log(url)
 
 				let nftTx = await nftContract.createToken(url)
 				console.log('Mining....', nftTx.hash)
@@ -89,7 +114,7 @@ const create = () => {
 				<input
 					placeholder='Name'
 					className='mt-8 border rounded p-4 text-black font-bold'
-					onChange={onTagChange}
+					onChange={onNameChange}
 				/>
 				<input
 					placeholder='Description'
@@ -109,7 +134,7 @@ const create = () => {
 
 				<button
 					className='font-bold mt-4 text-lg bg-gray-800 text-gray-200 rounded p-4 hover:shadow-lg hover:shadow-green-400 hover:scale-[1.01] transtion duration-500'
-					onClick={() => mintNFT(fileUrl)}
+					onClick={submit}
 				>
 					Submit
 				</button>
