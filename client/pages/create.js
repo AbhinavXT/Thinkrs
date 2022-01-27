@@ -83,7 +83,7 @@ const create = () => {
 
 				console.log(url)
 
-				let nftTx = await nftContract.createToken(url)
+				let nftTx = await nftContract.createNFT(url)
 				console.log('Mining....', nftTx.hash)
 
 				let tx = await nftTx.wait()
