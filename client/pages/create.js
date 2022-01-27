@@ -8,12 +8,16 @@ import { ethers } from 'ethers'
 import { nftContractAddress } from '../config'
 import NFT from '../utils/NFT.json'
 
+import { useRouter } from 'next/router'
+
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 const create = () => {
 	const [fileUrl, setFileUrl] = useState(null)
 	const [name, setName] = useState(``)
 	const [description, setDescription] = useState(``)
+
+	const router = useRouter()
 
 	let progress_func = function (len) {
 		console.log('File progress:', len)
@@ -100,6 +104,8 @@ const create = () => {
 				console.log(
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
 				)
+
+				router.push('/create')
 			} else {
 				console.log("Ethereum object doesn't exist!", error.message)
 			}

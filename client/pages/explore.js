@@ -42,7 +42,7 @@ export default function Home() {
 					signer
 				)
 
-				const itemsData = await marketContract.fetchMyNftItems()
+				const itemsData = await marketContract.fetchNftItems()
 
 				const items = await Promise.all(
 					itemsData.map(async (i) => {
@@ -79,7 +79,7 @@ export default function Home() {
 	}, [])
 
 	return (
-		<div className='flex flex-col justify-center items-center'>
+		<div className='flex flex-col justify-center items-center text-gray-200'>
 			<Head>
 				<title>Explore NFTs</title>
 				<meta name='description' content='Explore NFTs' />
@@ -95,53 +95,28 @@ export default function Home() {
 							<div className='px-4'>
 								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16'>
 									{nfts.map((nft, i) => (
-										<div
+										<button
 											key={i}
 											onClick={() => buyToken(nft.tokenId, nft.itemId)}
-											className='border shadow-lg rounded-xl overflow-hidden w-60 h-84 border-gray-300 cursor-pointer hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
+											className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
 										>
-											<img src={nft.image} />
-											<div className='flex justify-between p-4 font-bold text-lg'>
-												<div>#{nft.tokenId}</div>
-												<div className='flex items-center gap-x-1'>
-													<div>
-														<svg
-															width='18'
-															height='18'
-															viewBox='0 0 256 417'
-															xmlns='http://www.w3.org/2000/svg'
-															preserveAspectRatio='xMidYMid'
-														>
-															<path
-																fill='#343434'
-																d='M127.961 0l-2.795 9.5v275.668l2.795 2.79 127.962-75.638z'
-															/>
-															<path
-																fill='#8C8C8C'
-																d='M127.962 0L0 212.32l127.962 75.639V154.158z'
-															/>
-															<path
-																fill='#3C3C3B'
-																d='M127.961 312.187l-1.575 1.92v98.199l1.575 4.6L256 236.587z'
-															/>
-															<path
-																fill='#8C8C8C'
-																d='M127.962 416.905v-104.72L0 236.585z'
-															/>
-															<path
-																fill='#141414'
-																d='M127.961 287.958l127.96-75.637-127.96-58.162z'
-															/>
-															<path
-																fill='#393939'
-																d='M0 212.32l127.96 75.638v-133.8z'
-															/>
-														</svg>
-													</div>
-													<div>{nft.price}</div>
+											<img src={nft.image} className='w-full h-56 p-4' />
+
+											<div className='flex flex-col font-bold'>
+												<div className='flex justify-between px-4'>
+													<div>Id</div>
+													<div>{nft.tokenId}</div>
+												</div>
+												<div className='flex justify-between px-4'>
+													<div>Name</div>
+													<div>{nft.name}</div>
+												</div>
+												<div className='flex justify-between px-4'>
+													<div>Price</div>
+													<div>{nft.price} Ξ</div>
 												</div>
 											</div>
-										</div>
+										</button>
 									))}
 								</div>
 							</div>

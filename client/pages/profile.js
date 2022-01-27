@@ -138,17 +138,17 @@ const profile = () => {
 								<button
 									key={i}
 									onClick={() => sellToken(nft.id)}
-									className='flex flex-col gap-y-4 items-center border shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
+									className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
 								>
-									<img src={nft.image} className='rounded-lg mt-4 w-56 h-56' />
-									<div className='flex font-bold flex-col'>
-										<div className='flex gap-x-[150px]'>
+									<img src={nft.image} className='w-full h-56 p-4' />
+									<div className='flex flex-col font-bold'>
+										<div className='flex justify-between px-4'>
+											<div>Id</div>
+											<div>{nft.id}</div>
+										</div>
+										<div className='flex justify-between px-4'>
 											<div>Name</div>
 											<div>{nft.name}</div>
-										</div>
-										<div className='flex gap-x-[150px]'>
-											<div>TokenId</div>
-											<div>{nft.id}</div>
 										</div>
 									</div>
 								</button>

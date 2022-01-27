@@ -3,7 +3,7 @@ import Link from 'next/link'
 const Dropdown = () => {
 	return (
 		<div className='flex flex-col items-center divide-y-2 divide-gray-400 rounded-lg text-lg shadow-md shadow-green-400'>
-			<div className='w-full px-12 py-4 cursor-pointer hover:shadow-md hover:shadow-slate-400'>
+			<div className='w-full px-12 py-4 rounded-t-lg cursor-pointer hover:bg-green-400'>
 				<Link href='/profile'>
 					<button className='flex items-center gap-x-4'>
 						<svg
@@ -24,7 +24,7 @@ const Dropdown = () => {
 					</button>
 				</Link>
 			</div>
-			<div className='w-full px-12 py-4 cursor-pointer hover:shadow-md hover:shadow-slate-400'>
+			<div className='w-full px-12 py-4 cursor-pointer hover:bg-green-400'>
 				<Link href='/'>
 					<button className='flex items-center gap-x-4'>
 						<svg
@@ -41,7 +41,7 @@ const Dropdown = () => {
 					</button>
 				</Link>
 			</div>
-			<div className='w-full px-12 py-4 cursor-pointer hover:shadow-md hover:shadow-slate-400'>
+			<div className='w-full px-12 py-4 cursor-pointer rounded-b-lg hover:bg-green-400'>
 				<Link href='/'>
 					<button className='flex items-center gap-x-4'>
 						<svg

@@ -37,7 +37,7 @@ const Hero = () => {
 						<div className='flex items-center justify-center font-bold px-12 h-8 w-20 bg-gray-700 rounded-lg'>
 							Trending
 						</div>
-						<div>Tags</div>
+						<div></div>
 					</div>
 					<div>
 						<img src='/nft.png' alt='Trending nft' />
