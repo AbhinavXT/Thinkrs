@@ -25,6 +25,13 @@ const profile = () => {
 		})
 	}
 
+	const sellBoughtToken = (tokenId) => {
+		router.push({
+			pathname: '/sellnft',
+			query: { id: tokenId },
+		})
+	}
+
 	// Gets data of NFTs bought from the marketplace
 	const loadBoughtNFT = async () => {
 		try {
@@ -51,9 +58,13 @@ const profile = () => {
 						const tokenUri = await nftContract.tokenURI(i.tokenId)
 						const meta = await axios.get(tokenUri)
 						let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+
+						const nftData = await axios.get(tokenUri)
+
 						let item = {
 							price,
 							tokenId: i.tokenId.toNumber(),
+							name: nftData.data.name,
 							seller: i.seller,
 							owner: i.owner,
 							image: meta.data.image,
@@ -167,17 +178,25 @@ const profile = () => {
 							No bought NFT items.
 						</div>
 					) : (
-						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 mt-4 pb-8'>
+						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 mt-4'>
 							{boughtNfts.map((boughtNft, i) => (
-								<div
+								<button
 									key={i}
-									className='border shadow-lg rounded-xl overflow-hidden w-60 border-gray-300 hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
+									onClick={() => sellBoughtToken(boughtNft.tokenId)}
+									className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
 								>
-									<img src={boughtNft.image} />
-									<div className='flex items-center justify-center text-xl font-bold py-2 px-4'>
-										<div>#{boughtNft.tokenId}</div>
+									<img src={boughtNft.image} className='w-full h-56 p-4' />
+									<div className='flex flex-col font-bold'>
+										<div className='flex justify-between px-4'>
+											<div>Id</div>
+											<div>{boughtNft.tokenId}</div>
+										</div>
+										<div className='flex justify-between px-4'>
+											<div>Name</div>
+											<div>{boughtNft.name}</div>
+										</div>
 									</div>
-								</div>
+								</button>
 							))}
 						</div>
 					)}

@@ -93,7 +93,7 @@ const buynft = () => {
 
 				console.log('Mined!', tx.hash)
 
-				router.push('/mynft')
+				router.push('/profile')
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
@@ -150,12 +150,12 @@ const buynft = () => {
 					<div className='text-gray-200'>{tokenData.price} ETH</div>
 				</div>
 				<div className='flex flex-col gap-y-4 w-96'>
-					<buttom
+					<button
 						onClick={buyEternalNft}
-						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-gray-800 text-gray-100 font-bold text-lg cursor-pointer hover:shadow-lg hover:scale-105 transition duration-500 ease-in-out'
+						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-green-400 text-black font-bold text-lg cursor-pointer hover:shadow-lg hover:scale-[1.03] transition duration-500 ease-in-out'
 					>
 						Buy
-					</buttom>
+					</button>
 				</div>
 			</div>
 		</div>

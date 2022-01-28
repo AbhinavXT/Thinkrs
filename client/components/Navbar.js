@@ -149,7 +149,7 @@ const Navbar = () => {
 				) : (
 					<div>
 						<button
-							className='flex items-center justify-center bg-green-400 h-12 w-12 text-black rounded-full'
+							className='flex items-center justify-center bg-green-400 h-12 w-12 text-black rounded-full hover:scale-[1.03] transtion duration-500'
 							onClick={() =>
 								dropdown ? setDropdown(false) : setDropdown(true)
 							}

@@ -20,19 +20,19 @@ const Hero = () => {
 				</div>
 				<div className='flex gap-x-8'>
 					<Link href='/explore'>
-						<button className='p-4 text-black font-bold rounded-lg bg-green-400'>
+						<button className='p-4 text-black font-bold rounded-lg bg-green-400 hover:scale-[1.03] transtion duration-500'>
 							Explore NFTs
 						</button>
 					</Link>
 					<Link href='/create'>
-						<button className='p-4 font-bold rounded-lg bg-gray-900 '>
+						<button className='p-4 font-bold rounded-lg bg-gray-900 hover:scale-[1.03] transtion duration-500'>
 							List an NFT
 						</button>
 					</Link>
 				</div>
 			</div>
 			<div className='flex flex-col gap-y-4 mx-40'>
-				<div className='bg-gray-900 h-[415px] w-[380px] rounded-2xl shadow-green-400 shadow-lg'>
+				<div className='bg-gray-900 h-[415px] w-[380px] rounded-2xl shadow-green-400 shadow-lg hover:scale-[1.02] transtion duration-500'>
 					<div className='p-4 flex justify-between'>
 						<div className='flex items-center justify-center font-bold px-12 h-8 w-20 bg-gray-700 rounded-lg'>
 							Trending

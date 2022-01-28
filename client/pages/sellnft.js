@@ -88,7 +88,7 @@ const sellnft = () => {
 
 				console.log('Mined!', tx.hash)
 
-				router.push('/')
+				router.push('/explore')
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
