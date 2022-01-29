@@ -139,7 +139,7 @@ const create = () => {
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${marketTx.hash}`
 				)
 
-				router.push('/profile')
+				router.push('/explore')
 			} else {
 				console.log("Ethereum object doesn't exist!", error.message)
 			}
