@@ -5,8 +5,9 @@ import { create as ipfsHttpClient } from 'ipfs-http-client'
 import axios from 'axios'
 import { ethers } from 'ethers'
 
-import { nftContractAddress } from '../config'
+import { nftContractAddress, nftMarketAddress } from '../config'
 import NFT from '../utils/NFT.json'
+import Market from '../utils/NFTMarket.json'
 
 import { useRouter } from 'next/router'
 
@@ -16,6 +17,7 @@ const create = () => {
 	const [fileUrl, setFileUrl] = useState(null)
 	const [name, setName] = useState(``)
 	const [description, setDescription] = useState(``)
+	const [price, setPrice] = useState(null)
 
 	const router = useRouter()
 
@@ -55,6 +57,13 @@ const create = () => {
 		[description]
 	)
 
+	const onPriceChange = useCallback(
+		(e) => {
+			setPrice(e.target.value)
+		},
+		[price]
+	)
+
 	const submit = async () => {
 		const data = JSON.stringify({
 			name: name,
@@ -85,6 +94,12 @@ const create = () => {
 					signer
 				)
 
+				const marketContract = new ethers.Contract(
+					nftMarketAddress,
+					Market.abi,
+					signer
+				)
+
 				console.log(url)
 
 				let nftTx = await nftContract.createNFT(url)
@@ -96,13 +111,32 @@ const create = () => {
 				let value = event.args[2]
 				let tokenId = value.toNumber()
 
-				console.log('Token ID:', tokenId)
+				// console.log('Token ID:', tokenId)
 
-				let tokenUri = await nftContract.tokenURI(tokenId)
-				console.log('Token URI:', tokenUri)
-
+				// let tokenUri = await nftContract.tokenURI(tokenId)
+				// console.log('Token URI:', tokenUri)
 				console.log(
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
+				)
+
+				const itemPrice = ethers.utils.parseUnits(price, 'ether')
+
+				let listingPrice = await marketContract.getListingPrice()
+				listingPrice = listingPrice.toString()
+
+				let marketTx = await marketContract.createMarketItem(
+					nftContractAddress,
+					tokenId,
+					itemPrice,
+					{ value: listingPrice }
+				)
+
+				console.log('Mining....', marketTx.hash)
+
+				tx = await marketTx.wait()
+
+				console.log(
+					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${marketTx.hash}`
 				)
 
 				router.push('/profile')
@@ -126,6 +160,11 @@ const create = () => {
 					placeholder='Description'
 					className='mt-2 border rounded p-4 text-black font-bold'
 					onChange={onDescriptionChange}
+				/>
+				<input
+					placeholder='Price'
+					className='mt-2 border rounded p-4 text-black font-bold'
+					onChange={onPriceChange}
 				/>
 				<div>
 					<input

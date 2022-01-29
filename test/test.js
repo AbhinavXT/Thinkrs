@@ -7,20 +7,20 @@ describe('NFT Contract', async () => {
 	let nftContractAddress
 	let tokenId
 
-	// Deploys the EternalNFT contract and the EternalMarket contract before each test
+	// Deploys the NFT contract and the Market contract before each test
 	beforeEach('Setup Contract', async () => {
 		const Market = await ethers.getContractFactory('NFTMarket')
 		market = await Market.deploy()
 		await market.deployed()
 		marketContractAddress = await market.address
 
-		const EternalNFT = await ethers.getContractFactory('NFT')
-		nft = await EternalNFT.deploy(marketContractAddress)
+		const NFT = await ethers.getContractFactory('NFT')
+		nft = await NFT.deploy(marketContractAddress)
 		await nft.deployed()
 		nftContractAddress = await nft.address
 	})
 
-	// Tests address for the EternalNFT contract
+	// Tests address for the NFT contract
 	it('Should have an address', async () => {
 		assert.notEqual(nftContractAddress, 0x0)
 		assert.notEqual(nftContractAddress, '')
@@ -28,7 +28,7 @@ describe('NFT Contract', async () => {
 		assert.notEqual(nftContractAddress, undefined)
 	})
 
-	// Tests name for the token of EternalNFT contract
+	// Tests name for the token of NFT contract
 	it('Should have a name', async () => {
 		// Returns the name of the token
 		const name = await nft.collectionName()
@@ -36,7 +36,7 @@ describe('NFT Contract', async () => {
 		assert.equal(name, 'Thinkrs NFT')
 	})
 
-	// Tests symbol for the token of EternalNFT contract
+	// Tests symbol for the token of NFT contract
 	it('Should have a symbol', async () => {
 		// Returns the symbol of the token
 		const symbol = await nft.collectionSymbol()
@@ -44,7 +44,7 @@ describe('NFT Contract', async () => {
 		assert.equal(symbol, 'THINK')
 	})
 
-	// Tests for NFT minting function of EternalNFT contract using tokenID of the minted NFT
+	// Tests for NFT minting function of NFT contract using tokenID of the minted NFT
 	it('Should be able to mint NFT', async () => {
 		// Mints a NFT
 		let txn = await nft.createNFT('https://www.mytokenlocation1.com')
@@ -68,18 +68,6 @@ describe('NFT Contract', async () => {
 
 		assert.equal(tokenId, 1)
 	})
-
-	// Test for number of NFTs owned by an address
-	it('Should be able to return number of NFTs owned by and address', async () => {
-		// Mints a NFT
-		let txn = await nft.createNFT('https://www.mytokenlocation.com')
-		await txn.wait()
-
-		// Returns the array of NFTs owned by the address
-		let tokensOwned = await nft.getMyNFT()
-
-		assert.equal(tokensOwned.length, 1)
-	})
 })
 
 describe('NFTMarket Contract', function () {
@@ -90,15 +78,15 @@ describe('NFTMarket Contract', function () {
 	let listingPrice
 	let auctionPrice
 
-	// Deploys the EternalNFT contract and the EternalMarket contract before each test
-	beforeEach('Eternal Marketplace', async () => {
+	// Deploys the NFT contract and the Market contract before each test
+	beforeEach(' Marketplace', async () => {
 		const Market = await ethers.getContractFactory('NFTMarket')
 		market = await Market.deploy()
 		await market.deployed()
 		marketContractAddress = await market.address
 
-		const EternalNFT = await ethers.getContractFactory('NFT')
-		nft = await EternalNFT.deploy(marketContractAddress)
+		const NFT = await ethers.getContractFactory('NFT')
+		nft = await NFT.deploy(marketContractAddress)
 		await nft.deployed()
 		nftContractAddress = await nft.address
 
@@ -108,12 +96,12 @@ describe('NFTMarket Contract', function () {
 		auctionPrice = ethers.utils.parseUnits('1', 'ether')
 	})
 
-	// Test for creation of an Eternal Marketplace item
-	it('Should be able to create an Eternal Item', async () => {
+	// Test for creation of an  Marketplace item
+	it('Should be able to create an  Item', async () => {
 		// Mints a NFT
 		await nft.createNFT('https://www.mytokenlocation.com')
 
-		// Puts the NFT up for sale in the eternal marketplace
+		// Puts the NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
 		})
@@ -124,18 +112,18 @@ describe('NFTMarket Contract', function () {
 		assert.equal(items.length, 1)
 	})
 
-	// Test for creation and sale of an Eternal Marketplace item
-	it('Should be able to execute Eternal Item Sale', async () => {
+	// Test for creation and sale of an  Marketplace item
+	it('Should be able to execute  Item Sale', async () => {
 		// Mints 2 NFTs
 		await nft.createNFT('https://www.mytokenlocation1.com')
 		await nft.createNFT('https://www.mytokenlocation2.com')
 
-		// Puts the first NFT up for sale in the eternal marketplace
+		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
 		})
 
-		// Puts the second NFT up for sale in the eternal marketplace
+		// Puts the second NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
 			value: listingPrice,
 		})
@@ -154,18 +142,18 @@ describe('NFTMarket Contract', function () {
 		assert.equal(items.length, 1)
 	})
 
-	// Test for fetchng details of an Eternal Marketplace item using its itemId
-	it('Should be able to get an Eternal item by its tokenId', async () => {
+	// Test for fetchng details of an  Marketplace item using its itemId
+	it('Should be able to get an  item by its tokenId', async () => {
 		// Mints 2 NFTs
 		await nft.createNFT('https://www.mytokenlocation1.com')
 		await nft.createNFT('https://www.mytokenlocation2.com')
 
-		// Puts the first NFT up for sale in the eternal marketplace
+		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
 		})
 
-		// Puts the second NFT up for sale in the eternal marketplace
+		// Puts the second NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
 			value: listingPrice,
 		})
@@ -176,26 +164,50 @@ describe('NFTMarket Contract', function () {
 		assert.equal(item.itemId, 1)
 	})
 
-	// Test for fetchng details of all created Eternal Marketplace items
-	it('Should be able to get an Eternal item by its tokenId', async () => {
+	// Test for fetchng details of all created  Marketplace items
+	it('Should be able to get an  item by its tokenId', async () => {
 		// Mints 2 NFTs
 		await nft.createNFT('https://www.mytokenlocation1.com')
 		await nft.createNFT('https://www.mytokenlocation2.com')
 
-		// Puts the first NFT up for sale in the eternal marketplace
+		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
 			value: listingPrice,
 		})
 
-		// Puts the second NFT up for sale in the eternal marketplace
+		// Puts the second NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
 			value: listingPrice,
 		})
 
 		// Fetches the details of all unsold marketplace items
-		// Returs 2 as two eternal items are created and none is sold
+		// Returs 2 as two items are created and none is sold
 		let item = await market.fetchNftItems()
 
+		assert.equal(item.length, 2)
+	})
+
+	// Test for fetchng details of all of items created by user
+	it('Should be get an item created by owner', async () => {
+		// Mints 2 NFTs
+		await nft.createNFT('https://www.mytokenlocation1.com')
+		await nft.createNFT('https://www.mytokenlocation2.com')
+
+		// Puts the first NFT up for sale in the  marketplace
+		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
+			value: listingPrice,
+		})
+
+		// Puts the second NFT up for sale in the  marketplace
+		await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+			value: listingPrice,
+		})
+
+		// Fetches the details of all unsold marketplace items
+		// Returs 2 as two items are created and none is sold
+		let item = await market.fetchNftItemsCreated()
+
+		console.log(item)
 		assert.equal(item.length, 2)
 	})
 })

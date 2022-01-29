@@ -177,6 +177,32 @@ contract NFTMarket is ReentrancyGuard {
     return items;
   }
 
+  /// @notice Returns only items a user has created 
+  /// @return nftItem[] All the items created by the owner
+  function fetchNftItemsCreated() public view returns (nftItem[] memory) {
+    uint totalItemCount = _itemId.current();
+    uint itemCount = 0;
+    uint currentIndex = 0;
+
+    for (uint i = 0; i < totalItemCount; i++) {
+      if (idToNftItem[i].seller == msg.sender) {
+        itemCount += 1;
+      }
+    }
+
+    nftItem[] memory items = new nftItem[](itemCount);
+    
+    for (uint i = 0; i < totalItemCount; i++) {
+      if (idToNftItem[i].seller == msg.sender) {
+        uint currentId = i;
+        nftItem storage currentItem = idToNftItem[currentId];
+        items[currentIndex] = currentItem;
+        currentIndex += 1;
+      }
+    }
+    return items;
+  }
+
   ///@dev receive() and fallback() functions to allow the contract to receive ETH and data  
   receive() external payable {}
 

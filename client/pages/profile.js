@@ -59,12 +59,10 @@ const profile = () => {
 						const meta = await axios.get(tokenUri)
 						let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
 
-						const nftData = await axios.get(tokenUri)
-
 						let item = {
 							price,
 							tokenId: i.tokenId.toNumber(),
-							name: nftData.data.name,
+							name: meta.data.name,
 							seller: i.seller,
 							owner: i.owner,
 							image: meta.data.image,
@@ -72,6 +70,7 @@ const profile = () => {
 						return item
 					})
 				)
+				console.log('bought', data)
 				setBoughtNfts(items)
 			} else {
 				console.log("Ethereum object doesn't exist!")
@@ -82,59 +81,60 @@ const profile = () => {
 	}
 
 	// Gets data of NFTs minted by the user
-	const loadMyNFT = async () => {
-		try {
-			const { ethereum } = window
+	// const loadMyNFT = async () => {
+	// 	try {
+	// 		const { ethereum } = window
 
-			if (ethereum) {
-				const provider = await new ethers.providers.Web3Provider(ethereum)
-				const signer = provider.getSigner()
-				const nftContract = new ethers.Contract(
-					nftContractAddress,
-					NFT.abi,
-					signer
-				)
+	// 		if (ethereum) {
+	// 			const provider = await new ethers.providers.Web3Provider(ethereum)
+	// 			const signer = provider.getSigner()
+	// 			const nftContract = new ethers.Contract(
+	// 				nftContractAddress,
+	// 				NFT.abi,
+	// 				signer
+	// 			)
 
-				account = await signer.getAddress()
+	// 			account = await signer.getAddress()
 
-				const itemsData = await nftContract.getMyNFT()
+	// 			const itemsData = await nftContract.getMyNFT()
 
-				const items = await Promise.all(
-					itemsData.map(async (i) => {
-						const tokenId = i[0].toNumber()
-						const tokenOwner = await nftContract.ownerOf(tokenId)
-						const tokenUri = i[2]
-						const meta = await axios.get(tokenUri)
+	// 			const items = await Promise.all(
+	// 				itemsData.map(async (i) => {
+	// 					const tokenId = i[0].toNumber()
+	// 					const tokenOwner = await nftContract.ownerOf(tokenId)
+	// 					const tokenUri = i[2]
+	// 					const meta = await axios.get(tokenUri)
 
-						let item = {
-							id: tokenId,
-							name: meta.data.name,
-							description: meta.data.description,
-							image: meta.data.image,
-							owner: tokenOwner,
-						}
-						return item
-					})
-				)
-				const mintedItems = items.filter((item) => item.owner === account)
+	// 					let item = {
+	// 						id: tokenId,
+	// 						name: meta.data.name,
+	// 						description: meta.data.description,
+	// 						image: meta.data.image,
+	// 						owner: tokenOwner,
+	// 					}
+	// 					return item
+	// 				})
+	// 			)
+	// 			const mintedItems = items.filter((item) => item.owner === account)
 
-				setNfts(mintedItems)
-			} else {
-				console.log("Ethereum object doesn't exist!")
-			}
-		} catch (error) {
-			console.log('Error loading NFT nft', error)
-		}
-	}
+	// 			console.log('nfts', mintedItems)
+	// 			setNfts(mintedItems)
+	// 		} else {
+	// 			console.log("Ethereum object doesn't exist!")
+	// 		}
+	// 	} catch (error) {
+	// 		console.log('Error loading NFT nft', error)
+	// 	}
+	// }
 
 	useEffect(() => {
-		loadMyNFT()
+		//loadMyNFT()
 		loadBoughtNFT()
 	}, [])
 
 	return (
 		<div className='flex flex-col justify-center items-center text-white'>
-			<div className='flex justify-center'>
+			{/* <div className='flex justify-center'>
 				<div className='px-4 mt-12'>
 					<div className='text-center text-2xl font-extrabold'>
 						Minted NFT Items
@@ -167,22 +167,20 @@ const profile = () => {
 						</div>
 					)}
 				</div>
-			</div>
+			</div> */}
 			<div className='flex justify-center'>
 				<div className='px-4 mt-12'>
 					<div className='text-center text-2xl font-extrabold'>
-						Bought NFT Items
+						Your NFT Items
 					</div>
 					{boughtNfts.length === 0 ? (
-						<div className='text-lg font-semibold mt-4'>
-							No bought NFT items.
-						</div>
+						<div className='text-lg font-semibold mt-4'>No NFT items.</div>
 					) : (
 						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 mt-4'>
 							{boughtNfts.map((boughtNft, i) => (
 								<button
 									key={i}
-									onClick={() => sellBoughtToken(boughtNft.tokenId)}
+									// onClick={() => sellBoughtToken(boughtNft.tokenId)}
 									className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
 								>
 									<img src={boughtNft.image} className='w-full h-56 p-4' />
