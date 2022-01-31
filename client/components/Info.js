@@ -1,7 +1,7 @@
 const Info = () => {
 	return (
 		<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-20 p-20 bg-green-400 text-gray-900'>
-			<div className='flex flex-col gap-y-4 items-center px-80 sm:px-0'>
+			<div className='flex flex-col gap-y-4 items-center px-80 md:px-0'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					width='40'
@@ -23,7 +23,7 @@ const Info = () => {
 					maxime quaerat dicta at nesciunt?
 				</div>
 			</div>
-			<div className='flex flex-col gap-y-4 items-center px-80 sm:px-0'>
+			<div className='flex flex-col gap-y-4 items-center px-80 md:px-0'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					width='40'
@@ -45,7 +45,7 @@ const Info = () => {
 					maxime quaerat dicta at nesciunt?
 				</div>
 			</div>
-			<div className='flex flex-col gap-y-4 items-center px-80 sm:px-0'>
+			<div className='flex flex-col gap-y-4 items-center px-80 md:px-0'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					width='40'
@@ -68,7 +68,7 @@ const Info = () => {
 					maxime quaerat dicta at nesciunt?
 				</div>
 			</div>
-			<div className='flex flex-col gap-y-4 items-center px-80 sm:px-0'>
+			<div className='flex flex-col gap-y-4 items-center px-80 md:px-0'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					width='40'
