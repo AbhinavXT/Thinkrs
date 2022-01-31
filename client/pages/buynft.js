@@ -108,18 +108,18 @@ const buynft = () => {
 	}, [router.isReady])
 
 	return (
-		<div className='flex px-60 pt-20 gap-x-20 text-gray-300'>
+		<div className='flex flex-col justify-between items-center px-60 pt-20 gap-x-20 gap-y-20 text-gray-300 lg:flex-row'>
 			<div className='flex flex-col w-3/6 gap-y-8'>
 				<div className='flex justify-center items-center h-96 w-full'>
 					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
 				</div>
 				<div>
-					<div className='flex justify-center items-center text-black bg-gray-300 font-bold h-16 w-full text-lg rounded-lg shadow-xl'>
+					<div className='flex justify-center items-center text-black bg-gray-300 font-bold h-16 w-full rounded-lg shadow-xl text-3xl md:text-2xl lg:text-lg'>
 						{nft.description}
 					</div>
 				</div>
 				<div>
-					<div className='flex flex-col gap-y-2 w-full px-4 py-4 text-black bg-gray-300 font-bold rounded-lg shadow-xl'>
+					<div className='flex flex-col gap-y-2 w-full px-4 py-4 text-black bg-gray-300 font-bold rounded-lg shadow-xl text-3xl md:text-2xl lg:text-lg'>
 						<div className='flex justify-between'>
 							<div>TokenId:</div>
 							<div>{id}</div>
@@ -135,24 +135,24 @@ const buynft = () => {
 					</div>
 				</div>
 			</div>
-			<div className='flex flex-col font-bold w-full py-8 px-12 gap-y-12'>
-				<div className='text-4xl'>{nft.name}</div>
-				<div className='flex gap-x-4 text-xl'>
-					<div>Owned by:</div>
+			<div className='flex flex-col items-center font-bold w-full py-8 px-12 gap-y-12 lg:items-start'>
+				<div className='text-[60px] lg:text-4xl'>{nft.name}</div>
+				<div className='flex gap-x-4 text-2xl lg:text-xl'>
+					<div>Owner:</div>
 					<div className='text-gray-200'>{tokenData.seller}</div>
 				</div>
-				<div className='flex gap-x-4 text-xl'>
-					<div>Contract Address:</div>
+				<div className='flex gap-x-4 text-2xl lg:text-xl'>
+					<div>Contract:</div>
 					<div className='text-gray-200'>{nftContractAddress}</div>
 				</div>
-				<div className='flex gap-x-4 text-xl'>
+				<div className='flex gap-x-4 text-2xl lg:text-xl'>
 					<div>Price:</div>
 					<div className='text-gray-200'>{tokenData.price} ETH</div>
 				</div>
 				<div className='flex flex-col gap-y-4 w-96'>
 					<button
 						onClick={buyEternalNft}
-						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-green-400 text-black font-bold text-lg cursor-pointer hover:shadow-lg hover:scale-[1.03] transition duration-500 ease-in-out'
+						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-green-400 text-black font-bold text-2xl lg:text-lg cursor-pointer hover:shadow-lg hover:scale-[1.03] transition duration-500 ease-in-out'
 					>
 						Buy
 					</button>
