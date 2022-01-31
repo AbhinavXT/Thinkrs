@@ -101,14 +101,14 @@ const Navbar = () => {
 
 	return (
 		<div className='h-full py-8 text-white'>
-			<div className='dropdown relative flex items-center px-20 justify-between shadow-xl'>
+			<div className='dropdown relative flex gap-x-8 items-center px-20 justify-between shadow-xl'>
 				<Link href='/'>
-					<div className='flex gap-x-4 font-extrabold text-3xl cursor-pointer'>
+					<div className='flex font-extrabold text-3xl cursor-pointer'>
 						<div>Thinkrs</div>
 					</div>
 				</Link>
 
-				<div className='flex text-lg '>
+				<div className='lg:flex text-lg hidden'>
 					{pages.map((page, i) => (
 						<Link key={i} href={page.path}>
 							<div className='flex items-center px-4 justify-center rounded-full cursor-pointer h-12 w-24'>
@@ -121,11 +121,11 @@ const Navbar = () => {
 				<div>
 					<input
 						type='text'
-						placeholder='Search anything...'
-						className='h-12 w-[1000px] text-black rounded-full shadow-lg px-4 font-bold bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent'
+						placeholder='Search...'
+						className='h-12 w-[500px] lg:w-[1000px] hidden md:inline-flex text-black rounded-full shadow-lg px-4 font-bold bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent'
 					></input>
 				</div>
-				<button className='flex items-center gap-x-3 p-2 rounded-full'>
+				<button className='lg:flex items-center gap-x-3 p-2 rounded-full hidden'>
 					<div>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'

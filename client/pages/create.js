@@ -150,7 +150,7 @@ const create = () => {
 
 	return (
 		<div className='flex justify-center min-h-screen text-white'>
-			<div className='w-1/2 flex flex-col pb-12 mt-20'>
+			<div className='w-3/4 lg:w-1/2 flex flex-col pb-12 mt-20'>
 				<input
 					placeholder='Name'
 					className='mt-8 border rounded p-4 text-black font-bold'

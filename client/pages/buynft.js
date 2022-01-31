@@ -114,12 +114,12 @@ const buynft = () => {
 					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
 				</div>
 				<div>
-					<div className='flex justify-center items-center text-black bg-gray-300 font-bold h-16 w-full rounded-lg shadow-xl text-3xl md:text-2xl lg:text-lg'>
+					<div className='flex justify-center items-center text-black bg-gray-300 font-bold h-16 w-full rounded-lg shadow-xl text-2xl lg:text-lg'>
 						{nft.description}
 					</div>
 				</div>
 				<div>
-					<div className='flex flex-col gap-y-2 w-full px-4 py-4 text-black bg-gray-300 font-bold rounded-lg shadow-xl text-3xl md:text-2xl lg:text-lg'>
+					<div className='flex flex-col gap-y-2 w-full px-4 py-4 text-black bg-gray-300 font-bold rounded-lg shadow-xl text-2xl lg:text-lg'>
 						<div className='flex justify-between'>
 							<div>TokenId:</div>
 							<div>{id}</div>

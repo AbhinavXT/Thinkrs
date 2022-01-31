@@ -174,7 +174,9 @@ const profile = () => {
 						Your NFT Items
 					</div>
 					{boughtNfts.length === 0 ? (
-						<div className='text-lg font-semibold mt-4'>No NFT items.</div>
+						<div className='text-lg text-center font-semibold mt-4'>
+							No NFT items.
+						</div>
 					) : (
 						<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-4 mt-4'>
 							{boughtNfts.map((boughtNft, i) => (
