@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const Hero = () => {
 	return (
-		<div className='flex px-40 gap-x-20'>
+		<div className='flex flex-col items-center gap-y-32 text-center px-40 gap-x-20 md:flex-row md:text-left'>
 			<div className='flex flex-col gap-y-8 w-1/2'>
 				<div className='font-extrabold text-5xl'>
 					Trade NFTs of News Stories, Earn and Rewards
@@ -18,7 +18,7 @@ const Hero = () => {
 					magnam! Suscipit, debitis tenetur? Possimus maiores nam minus qui
 					excepturi fugit quasi distinctio ea?
 				</div>
-				<div className='flex gap-x-8'>
+				<div className='flex gap-x-8 justify-center md:justify-start'>
 					<Link href='/explore'>
 						<button className='p-4 text-black font-bold rounded-lg bg-green-400 hover:scale-[1.03] transtion duration-500'>
 							Explore NFTs
