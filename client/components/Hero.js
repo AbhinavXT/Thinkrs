@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from "next/link"
 
 const Hero = () => {
 	return (
@@ -8,16 +8,15 @@ const Hero = () => {
 					Trade NFTs of News Stories, Earn and Rewards
 				</div>
 				<div className='text-xl px-12 lg:text-lg lg:px-0'>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates
-					totam vel exercitationem odio doloribus vero labore magnam suscipit.{' '}
+					Thinkrs is the first media NFT Marketplace which allows you
+					to make money trading news stories.{" "}
 					<span className='hidden lg:inline'>
-						Delectus totam neque eveniet pariatur hic alias odio ullam
-						doloremque quod quam? Numquam pariatur quam animi reprehenderit,
-						alias culpa quisquam fugiat libero laudantium itaque dolor aliquid
-						perspiciatis repudiandae odio sint quos iusto ad minima vero? Modi
-						reiciendis labore expedita sapiente quisquam dolorem! Repudiandae,
-						incidunt magnam! Suscipit, debitis tenetur? Possimus maiores nam
-						minus qui excepturi fugit quasi distinctio ea?
+						Thinkrs is the first media NFT Marketplace which allows
+						you to make money trading news stories. By Minting under
+						covered stories or topics and selliing it if you think
+						it will gain prominance or should be discovered. You
+						earn rewards with each trade. Make money while ensuring
+						the most important storiesre shown to public.
 					</span>
 				</div>
 				<div className='flex gap-x-8 justify-center lg:justify-start'>
@@ -44,7 +43,9 @@ const Hero = () => {
 					<div>
 						<img src='/nft.png' alt='Trending nft' />
 					</div>
-					<div className='flex items-center font-bold p-4'>Doodole #6961</div>
+					<div className='flex items-center font-bold p-4'>
+						Doodole #6961
+					</div>
 				</div>
 			</div>
 		</div>

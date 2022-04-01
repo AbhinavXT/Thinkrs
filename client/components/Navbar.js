@@ -1,47 +1,62 @@
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import Link from "next/link"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 
-import Dropdown from './Dropdown'
+import Dropdown from "./Dropdown"
+import { networks } from "../utils/networks"
 
 const Navbar = () => {
-	const [currentAccount, setCurrentAccount] = useState('')
-	const [correctNetwork, setCorrectNetwork] = useState(false)
+	const [currentAccount, setCurrentAccount] = useState("")
+	const [network, setNetwork] = useState("")
 	const [dropdown, setDropdown] = useState(false)
 
 	const router = useRouter()
 
 	const pages = [
 		{
-			name: 'Explore',
-			path: '/explore',
+			name: "Explore",
+			path: "/explore",
 		},
 		{
-			name: 'Collections',
-			path: '/collections',
+			name: "Collections",
+			path: "/collections",
 		},
 		{
-			name: 'Rewards',
-			path: '/rewards',
+			name: "Rewards",
+			path: "/rewards",
 		},
 	]
 
-	// Checks if wallet is connected
+	// Checks if wallet is connected to the correct network
 	const checkIfWalletIsConnected = async () => {
 		const { ethereum } = window
-		if (ethereum) {
-			console.log('Got the ethereum obejct: ', ethereum)
+
+		if (!ethereum) {
+			console.log("Make sure you have metamask!")
+			return
 		} else {
-			console.log('No Wallet found. Connect Wallet')
+			console.log("We have the ethereum object", ethereum)
 		}
 
-		const accounts = await ethereum.request({ method: 'eth_accounts' })
+		const accounts = await ethereum.request({ method: "eth_accounts" })
 
 		if (accounts.length !== 0) {
-			console.log('Found authorized Account: ', accounts[0])
-			setCurrentAccount(accounts[0])
+			const account = accounts[0]
+			console.log("Found an authorized account:", account)
+			setCurrentAccount(account)
 		} else {
-			console.log('No authorized account found')
+			console.log("No authorized account found")
+		}
+
+		// This is the new part, we check the user's network chain ID
+		const chainId = await ethereum.request({ method: "eth_chainId" })
+		setNetwork(networks[chainId])
+
+		ethereum.on("chainChanged", handleChainChanged)
+
+		// Reload the page when they change networks
+		function handleChainChanged(_chainId) {
+			window.location.reload()
 		}
 	}
 
@@ -51,53 +66,73 @@ const Navbar = () => {
 			const { ethereum } = window
 
 			if (!ethereum) {
-				console.log('Metamask not detected')
-				return
-			}
-			let chainId = await ethereum.request({ method: 'eth_chainId' })
-			console.log('Connected to chain:' + chainId)
-
-			const rinkebyChainId = '0x4'
-
-			const devChainId = 1337
-			const localhostChainId = `0x${Number(devChainId).toString(16)}`
-
-			if (chainId !== rinkebyChainId && chainId !== localhostChainId) {
-				alert('You are not connected to the Rinkeby Testnet!')
+				console.log("Metamask not detected")
 				return
 			}
 
-			const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+			const accounts = await ethereum.request({
+				method: "eth_requestAccounts",
+			})
 
-			console.log('Found account', accounts[0])
+			console.log("Found account", accounts[0])
 			setCurrentAccount(accounts[0])
+			switchNetwork()
 		} catch (error) {
-			console.log('Error connecting to metamask', error)
+			console.log("Error connecting to metamask", error)
 		}
 	}
 
-	// Checks if wallet is connected to the correct network
-	const checkCorrectNetwork = async () => {
-		const { ethereum } = window
-		let chainId = await ethereum.request({ method: 'eth_chainId' })
-		console.log('Connected to chain:' + chainId)
-
-		const rinkebyChainId = '0x4'
-
-		const devChainId = 1337
-		const localhostChainId = `0x${Number(devChainId).toString(16)}`
-
-		if (chainId !== rinkebyChainId && chainId !== localhostChainId) {
-			setCorrectNetwork(false)
+	const switchNetwork = async () => {
+		if (window.ethereum) {
+			try {
+				await window.ethereum.request({
+					method: "wallet_switchEthereumChain",
+					params: [{ chainId: "0x4" }], // Check networks.js for hexadecimal network ids
+				})
+			} catch (error) {
+				if (error.code === 4902) {
+					try {
+						await window.ethereum.request({
+							method: "wallet_addEthereumChain",
+							params: [
+								{
+									chainId: "0x4",
+									chainName: "Rinkeby",
+									rpcUrls: [
+										"https://eth-rinkeby.alchemyapi.io/v2/s77JOA_iC1C67tzKflF54e-v1XwKorYN",
+									],
+									nativeCurrency: {
+										name: "Ethereum",
+										symbol: "ETH",
+										decimals: 18,
+									},
+									blockExplorerUrls: [
+										"https://rinkeby.etherscan.io/",
+									],
+								},
+							],
+						})
+					} catch (error) {
+						console.log(error)
+					}
+				}
+				console.log(error)
+			}
 		} else {
-			setCorrectNetwork(true)
+			// If window.ethereum is not found then MetaMask is not installed
+			alert(
+				"MetaMask is not installed. Please install it to use this app: https://metamask.io/download.html"
+			)
 		}
 	}
 
 	useEffect(() => {
 		checkIfWalletIsConnected()
-		checkCorrectNetwork()
-	}, [])
+
+		if (currentAccount !== "" && network === "Rinkeby") {
+			console.log("init")
+		}
+	}, [currentAccount, network])
 
 	return (
 		<div className='h-full py-8 text-white'>
@@ -139,7 +174,7 @@ const Navbar = () => {
 					</div>
 					<div className='font-bold text-lg'>EN</div>
 				</button>
-				{currentAccount === '' ? (
+				{currentAccount === "" ? (
 					<button
 						className='flex items-center h-[40px] w-20 justify-center bg-green-400 text-black rounded-xl font-bold'
 						onClick={connectWallet}
@@ -151,7 +186,9 @@ const Navbar = () => {
 						<button
 							className='flex items-center justify-center bg-green-400 h-12 w-12 text-black rounded-full hover:scale-[1.03] transtion duration-500'
 							onClick={() =>
-								dropdown ? setDropdown(false) : setDropdown(true)
+								dropdown
+									? setDropdown(false)
+									: setDropdown(true)
 							}
 						>
 							<svg
@@ -167,7 +204,7 @@ const Navbar = () => {
 						</button>
 						<div
 							className={`dropdown-menu absolute right-16 top-20 bg-gray-200 rounded-lg text-black ${
-								dropdown ? 'block' : 'hidden'
+								dropdown ? "block" : "hidden"
 							}`}
 						>
 							<Dropdown />

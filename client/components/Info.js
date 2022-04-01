@@ -14,11 +14,9 @@ const Info = () => {
 				</svg>
 				<div className='font-bold text-3xl'>Set up your wallet</div>
 				<div className='text-center text-gray-800 text-md lg:text-sm'>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. In ut quas
-					corrupti, maxime animi quis et quae laboriosam. Debitis amet
-					dignissimos, doloribus qui ratione quam explicabo nostrum? Minima,
-					alias delectus. In consequuntur ipsum neque voluptatum numquam, sit
-					maxime quaerat dicta at nesciunt?
+					Once you’ve set up your wallet of choice, connect it to
+					Thinkrs Marketplace by clicking the connect button in the
+					top right corner.
 				</div>
 			</div>
 			<div className='flex flex-col gap-y-4 items-center px-28 md:px-0'>
@@ -34,11 +32,9 @@ const Info = () => {
 				</svg>
 				<div className='font-bold text-3xl'>Create your collection</div>
 				<div className='text-center text-gray-800 text-md lg:text-sm'>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. In ut quas
-					corrupti, maxime animi quis et quae laboriosam. Debitis amet
-					dignissimos, doloribus qui ratione quam explicabo nostrum? Minima,
-					alias delectus. In consequuntur ipsum neque voluptatum numquam, sit
-					maxime quaerat dicta at nesciunt?
+					Click My Collections and set up your collection. Add social
+					links, a description, profile & banner images, and set a
+					secondary sales fee.
 				</div>
 			</div>
 			<div className='flex flex-col gap-y-4 items-center px-28 md:px-0'>
@@ -55,11 +51,9 @@ const Info = () => {
 				</svg>
 				<div className='font-bold text-3xl'>Add your NFTs</div>
 				<div className='text-center text-gray-800 text-md lg:text-sm'>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. In ut quas
-					corrupti, maxime animi quis et quae laboriosam. Debitis amet
-					dignissimos, doloribus qui ratione quam explicabo nostrum? Minima,
-					alias delectus. In consequuntur ipsum neque voluptatum numquam, sit
-					maxime quaerat dicta at nesciunt?
+					Upload your work (image, video, audio, or 3D art), add a
+					title and description, and customize your NFTs with
+					properties and stats.
 				</div>
 			</div>
 			<div className='flex flex-col gap-y-4 items-center px-28 md:px-0'>
@@ -76,11 +70,8 @@ const Info = () => {
 				</svg>
 				<div className='font-bold text-3xl'>List them for sale</div>
 				<div className='text-center text-gray-800 text-md lg:text-sm'>
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. In ut quas
-					corrupti, maxime animi quis et quae laboriosam. Debitis amet
-					dignissimos, doloribus qui ratione quam explicabo nostrum? Minima,
-					alias delectus. In consequuntur ipsum neque voluptatum numquam, sit
-					maxime quaerat dicta at nesciunt?
+					You choose how you want to sell your NFTs, and we help you
+					sell them!
 				</div>
 			</div>
 		</div>

@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-import Head from 'next/head'
-import axios from 'axios'
+import { useEffect, useState } from "react"
+import { ethers } from "ethers"
+import Head from "next/head"
+import axios from "axios"
 
-import { nftContractAddress, nftMarketAddress } from '../config.js'
+import { nftContractAddress, nftMarketAddress } from "../config.js"
 
-import NFT from '../utils/NFT.json'
-import Market from '../utils/NFTMarket.json'
+import NFT from "../../artifacts/contracts/NFT.sol/NFT.json"
+import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json"
 
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
 export default function Home() {
 	const [nfts, setNfts] = useState([])
@@ -18,7 +18,7 @@ export default function Home() {
 	// Routes to the buynft page
 	const buyToken = (tokenId, itemId) => {
 		router.push({
-			pathname: '/buynft',
+			pathname: "/buynft",
 			query: { tokenid: tokenId, itemid: itemId },
 		})
 	}
@@ -29,7 +29,9 @@ export default function Home() {
 			const { ethereum } = window
 
 			if (ethereum) {
-				const provider = await new ethers.providers.Web3Provider(ethereum)
+				const provider = await new ethers.providers.Web3Provider(
+					ethereum
+				)
 				const signer = provider.getSigner()
 				const nftContract = new ethers.Contract(
 					nftContractAddress,
@@ -49,7 +51,10 @@ export default function Home() {
 						const tokenUri = await nftContract.tokenURI(i.tokenId)
 						const meta = await axios.get(tokenUri)
 
-						let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+						let price = ethers.utils.formatUnits(
+							i.price.toString(),
+							"ether"
+						)
 
 						let item = {
 							price,
@@ -70,7 +75,7 @@ export default function Home() {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error loading eternal nft', error)
+			console.log("Error loading eternal nft", error)
 		}
 	}
 
@@ -97,10 +102,18 @@ export default function Home() {
 									{nfts.map((nft, i) => (
 										<button
 											key={i}
-											onClick={() => buyToken(nft.tokenId, nft.itemId)}
+											onClick={() =>
+												buyToken(
+													nft.tokenId,
+													nft.itemId
+												)
+											}
 											className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
 										>
-											<img src={nft.image} className='w-full h-56 p-4' />
+											<img
+												src={nft.image}
+												className='w-full h-56 p-4'
+											/>
 
 											<div className='flex flex-col font-bold'>
 												<div className='flex justify-between px-4'>

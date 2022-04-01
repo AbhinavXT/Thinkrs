@@ -1,17 +1,17 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback } from "react"
 
-import { create as ipfsHttpClient } from 'ipfs-http-client'
+import { create as ipfsHttpClient } from "ipfs-http-client"
 
-import axios from 'axios'
-import { ethers } from 'ethers'
+import axios from "axios"
+import { ethers } from "ethers"
 
-import { nftContractAddress, nftMarketAddress } from '../config'
-import NFT from '../utils/NFT.json'
-import Market from '../utils/NFTMarket.json'
+import { nftContractAddress, nftMarketAddress } from "../config"
+import NFT from "../../artifacts/contracts/NFT.sol/NFT.json"
+import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json"
 
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
+const client = ipfsHttpClient("https://ipfs.infura.io:5001/api/v0")
 
 const create = () => {
 	const [fileUrl, setFileUrl] = useState(null)
@@ -22,7 +22,7 @@ const create = () => {
 	const router = useRouter()
 
 	let progress_func = function (len) {
-		console.log('File progress:', len)
+		console.log("File progress:", len)
 	}
 
 	const onChange = useCallback(
@@ -37,7 +37,7 @@ const create = () => {
 				const url = `https://ipfs.infura.io/ipfs/${added.path}`
 				setFileUrl(url)
 			} catch (error) {
-				console.log('Error uploading file: ', error)
+				console.log("Error uploading file: ", error)
 			}
 		},
 		[fileUrl]
@@ -77,7 +77,7 @@ const create = () => {
 
 			mintNFT(url)
 		} catch (error) {
-			console.log('Error uploading file: ', error)
+			console.log("Error uploading file: ", error)
 		}
 	}
 
@@ -103,7 +103,7 @@ const create = () => {
 				console.log(url)
 
 				let nftTx = await nftContract.createNFT(url)
-				console.log('Mining....', nftTx.hash)
+				console.log("Mining....", nftTx.hash)
 
 				let tx = await nftTx.wait()
 
@@ -119,7 +119,7 @@ const create = () => {
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
 				)
 
-				const itemPrice = ethers.utils.parseUnits(price, 'ether')
+				const itemPrice = ethers.utils.parseUnits(price, "ether")
 
 				let listingPrice = await marketContract.getListingPrice()
 				listingPrice = listingPrice.toString()
@@ -131,7 +131,7 @@ const create = () => {
 					{ value: listingPrice }
 				)
 
-				console.log('Mining....', marketTx.hash)
+				console.log("Mining....", marketTx.hash)
 
 				tx = await marketTx.wait()
 
@@ -139,12 +139,12 @@ const create = () => {
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${marketTx.hash}`
 				)
 
-				router.push('/explore')
+				router.push("/explore")
 			} else {
 				console.log("Ethereum object doesn't exist!", error.message)
 			}
 		} catch (error) {
-			console.log('Error minting character', error)
+			console.log("Error minting character", error)
 		}
 	}
 
@@ -157,14 +157,14 @@ const create = () => {
 					onChange={onNameChange}
 				/>
 				<input
-					placeholder='Description'
-					className='mt-2 border rounded p-4 text-black font-bold'
-					onChange={onDescriptionChange}
-				/>
-				<input
 					placeholder='Price'
 					className='mt-2 border rounded p-4 text-black font-bold'
 					onChange={onPriceChange}
+				/>
+				<textarea
+					placeholder='Description'
+					className='mt-2 h-32 border rounded p-4 text-black '
+					onChange={onDescriptionChange}
 				/>
 				<div>
 					<input
@@ -175,7 +175,9 @@ const create = () => {
 					/>
 				</div>
 
-				{fileUrl && <img className='rounded mt-4' width='350' src={fileUrl} />}
+				{fileUrl && (
+					<img className='rounded mt-4' width='350' src={fileUrl} />
+				)}
 
 				<button
 					className='font-bold mt-4 text-lg bg-gray-800 text-gray-200 rounded p-4 hover:shadow-lg hover:shadow-green-400 hover:scale-[1.01] transtion duration-500'

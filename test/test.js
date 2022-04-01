@@ -1,6 +1,6 @@
-const { assert } = require('chai')
+const { assert } = require("chai")
 
-describe('NFT Contract', async () => {
+describe("NFT Contract", async () => {
 	let nft
 	let market
 	let marketContractAddress
@@ -8,46 +8,46 @@ describe('NFT Contract', async () => {
 	let tokenId
 
 	// Deploys the NFT contract and the Market contract before each test
-	beforeEach('Setup Contract', async () => {
-		const Market = await ethers.getContractFactory('NFTMarket')
+	beforeEach("Setup Contract", async () => {
+		const Market = await ethers.getContractFactory("NFTMarket")
 		market = await Market.deploy()
 		await market.deployed()
 		marketContractAddress = await market.address
 
-		const NFT = await ethers.getContractFactory('NFT')
+		const NFT = await ethers.getContractFactory("NFT")
 		nft = await NFT.deploy(marketContractAddress)
 		await nft.deployed()
 		nftContractAddress = await nft.address
 	})
 
 	// Tests address for the NFT contract
-	it('Should have an address', async () => {
+	it("Should have an address", async () => {
 		assert.notEqual(nftContractAddress, 0x0)
-		assert.notEqual(nftContractAddress, '')
+		assert.notEqual(nftContractAddress, "")
 		assert.notEqual(nftContractAddress, null)
 		assert.notEqual(nftContractAddress, undefined)
 	})
 
 	// Tests name for the token of NFT contract
-	it('Should have a name', async () => {
+	it("Should have a name", async () => {
 		// Returns the name of the token
 		const name = await nft.collectionName()
 
-		assert.equal(name, 'Thinkrs NFT')
+		assert.equal(name, "Thinkrs NFT")
 	})
 
 	// Tests symbol for the token of NFT contract
-	it('Should have a symbol', async () => {
+	it("Should have a symbol", async () => {
 		// Returns the symbol of the token
 		const symbol = await nft.collectionSymbol()
 
-		assert.equal(symbol, 'THINK')
+		assert.equal(symbol, "THINK")
 	})
 
 	// Tests for NFT minting function of NFT contract using tokenID of the minted NFT
-	it('Should be able to mint NFT', async () => {
+	it("Should be able to mint NFT", async () => {
 		// Mints a NFT
-		let txn = await nft.createNFT('https://www.mytokenlocation1.com')
+		let txn = await nft.createNFT("https://www.mytokenlocation1.com")
 		let tx = await txn.wait()
 
 		// tokenID of the minted NFT
@@ -58,7 +58,7 @@ describe('NFT Contract', async () => {
 		assert.equal(tokenId, 0)
 
 		// Mints another NFT
-		txn = await nft.createNFT('https://www.mytokenlocation2.com')
+		txn = await nft.createNFT("https://www.mytokenlocation2.com")
 		tx = await txn.wait()
 
 		// tokenID of the minted NFT
@@ -70,7 +70,7 @@ describe('NFT Contract', async () => {
 	})
 })
 
-describe('NFTMarket Contract', function () {
+describe("NFTMarket Contract", function () {
 	let nft
 	let market
 	let marketContractAddress
@@ -79,13 +79,13 @@ describe('NFTMarket Contract', function () {
 	let auctionPrice
 
 	// Deploys the NFT contract and the Market contract before each test
-	beforeEach(' Marketplace', async () => {
-		const Market = await ethers.getContractFactory('NFTMarket')
+	beforeEach(" Marketplace", async () => {
+		const Market = await ethers.getContractFactory("NFTMarket")
 		market = await Market.deploy()
 		await market.deployed()
 		marketContractAddress = await market.address
 
-		const NFT = await ethers.getContractFactory('NFT')
+		const NFT = await ethers.getContractFactory("NFT")
 		nft = await NFT.deploy(marketContractAddress)
 		await nft.deployed()
 		nftContractAddress = await nft.address
@@ -93,13 +93,13 @@ describe('NFTMarket Contract', function () {
 		listingPrice = await market.getListingPrice()
 		listingPrice = listingPrice.toString()
 
-		auctionPrice = ethers.utils.parseUnits('1', 'ether')
+		auctionPrice = ethers.utils.parseUnits("1", "ether")
 	})
 
 	// Test for creation of an  Marketplace item
-	it('Should be able to create an  Item', async () => {
+	it("Should be able to create an  Item", async () => {
 		// Mints a NFT
-		await nft.createNFT('https://www.mytokenlocation.com')
+		await nft.createNFT("https://www.mytokenlocation.com")
 
 		// Puts the NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
@@ -113,10 +113,10 @@ describe('NFTMarket Contract', function () {
 	})
 
 	// Test for creation and sale of an  Marketplace item
-	it('Should be able to execute  Item Sale', async () => {
+	it("Should be able to execute  Item Sale", async () => {
 		// Mints 2 NFTs
-		await nft.createNFT('https://www.mytokenlocation1.com')
-		await nft.createNFT('https://www.mytokenlocation2.com')
+		await nft.createNFT("https://www.mytokenlocation1.com")
+		await nft.createNFT("https://www.mytokenlocation2.com")
 
 		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
@@ -142,11 +142,49 @@ describe('NFTMarket Contract', function () {
 		assert.equal(items.length, 1)
 	})
 
+	it("Should be able to resell an item", async () => {
+		await nft.createNFT("https://www.mytokenlocation1.com")
+		await nft.createNFT("https://www.mytokenlocation2.com")
+
+		// Puts the first NFT up for sale in the  marketplace
+		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
+			value: listingPrice,
+		})
+
+		// Puts the second NFT up for sale in the  marketplace
+		await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+			value: listingPrice,
+		})
+
+		const [_, buyerAddress] = await ethers.getSigners()
+		console.log(buyerAddress.address)
+
+		const txn = await market
+			.connect(buyerAddress)
+			.createNftItemSale(nftContractAddress, 1, { value: auctionPrice })
+
+		const tx = await txn.wait()
+		// await market
+		// 	.connect(buyerAddress)
+		// 	.resellNftItem(nftContractAddress, 1, auctionPrice, {
+		// 		value: listingPrice,
+		// 	})
+
+		console.log(tx.events[0])
+
+		// let items = await market.fetchNftItems()
+		// console.log(items)
+		// // Fetches the remaining unsold marketplace items
+		// // Returns zero as one of the two NFT minted is sold and then reselled on the marketplace
+
+		// assert.equal(items.length, 0)
+	})
+
 	// Test for fetchng details of an  Marketplace item using its itemId
-	it('Should be able to get an  item by its tokenId', async () => {
+	it("Should be able to get an  item by its tokenId", async () => {
 		// Mints 2 NFTs
-		await nft.createNFT('https://www.mytokenlocation1.com')
-		await nft.createNFT('https://www.mytokenlocation2.com')
+		await nft.createNFT("https://www.mytokenlocation1.com")
+		await nft.createNFT("https://www.mytokenlocation2.com")
 
 		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
@@ -165,10 +203,10 @@ describe('NFTMarket Contract', function () {
 	})
 
 	// Test for fetchng details of all created  Marketplace items
-	it('Should be able to get an  item by its tokenId', async () => {
+	it("Should be able to get an  item by its tokenId", async () => {
 		// Mints 2 NFTs
-		await nft.createNFT('https://www.mytokenlocation1.com')
-		await nft.createNFT('https://www.mytokenlocation2.com')
+		await nft.createNFT("https://www.mytokenlocation1.com")
+		await nft.createNFT("https://www.mytokenlocation2.com")
 
 		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
@@ -183,15 +221,16 @@ describe('NFTMarket Contract', function () {
 		// Fetches the details of all unsold marketplace items
 		// Returs 2 as two items are created and none is sold
 		let item = await market.fetchNftItems()
+		//console.log(item)
 
 		assert.equal(item.length, 2)
 	})
 
 	// Test for fetchng details of all of items created by user
-	it('Should be get an item created by owner', async () => {
+	it("Should be get an item created by owner", async () => {
 		// Mints 2 NFTs
-		await nft.createNFT('https://www.mytokenlocation1.com')
-		await nft.createNFT('https://www.mytokenlocation2.com')
+		await nft.createNFT("https://www.mytokenlocation1.com")
+		await nft.createNFT("https://www.mytokenlocation2.com")
 
 		// Puts the first NFT up for sale in the  marketplace
 		await market.createMarketItem(nftContractAddress, 0, auctionPrice, {
@@ -207,7 +246,7 @@ describe('NFTMarket Contract', function () {
 		// Returs 2 as two items are created and none is sold
 		let item = await market.fetchNftItemsCreated()
 
-		console.log(item)
+		//console.log(item)
 		assert.equal(item.length, 2)
 	})
 })

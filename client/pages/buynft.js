@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
-import { ethers } from 'ethers'
-import axios from 'axios'
+import { useState, useEffect } from "react"
+import { ethers } from "ethers"
+import axios from "axios"
 
-import { nftContractAddress, nftMarketAddress } from '../config.js'
+import { nftContractAddress, nftMarketAddress } from "../config.js"
 
-import NFT from '../utils/NFT.json'
-import Market from '../utils/NFTMarket.json'
+import NFT from "../../artifacts/contracts/NFT.sol/NFT.json"
+import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json"
 
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
 const buynft = () => {
 	const [nft, setNft] = useState({})
@@ -57,7 +57,7 @@ const buynft = () => {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error fetching token data', error)
+			console.log("Error fetching token data", error)
 		}
 	}
 
@@ -67,7 +67,9 @@ const buynft = () => {
 			const { ethereum } = window
 
 			if (ethereum) {
-				const provider = await new ethers.providers.Web3Provider(ethereum)
+				const provider = await new ethers.providers.Web3Provider(
+					ethereum
+				)
 				const signer = provider.getSigner()
 
 				const marketContract = new ethers.Contract(
@@ -79,7 +81,10 @@ const buynft = () => {
 				const itemId = router.query.itemid
 
 				const tokenData = await marketContract.fetchNftItemById(itemId)
-				const price = ethers.utils.parseUnits(tokenData[5].toString(), 'wei')
+				const price = ethers.utils.parseUnits(
+					tokenData[5].toString(),
+					"wei"
+				)
 
 				const tx = await marketContract.createNftItemSale(
 					nftContractAddress,
@@ -88,17 +93,17 @@ const buynft = () => {
 						value: price,
 					}
 				)
-				console.log('Mining:', tx.hash)
+				console.log("Mining:", tx.hash)
 				await tx.wait()
 
-				console.log('Mined!', tx.hash)
+				console.log("Mined!", tx.hash)
 
-				router.push('/profile')
+				router.push("/profile")
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error Mining transaction', error)
+			console.log("Error Mining transaction", error)
 		}
 	}
 
@@ -111,10 +116,14 @@ const buynft = () => {
 		<div className='flex flex-col justify-between items-center px-60 pt-20 gap-x-20 gap-y-20 text-gray-300 lg:flex-row'>
 			<div className='flex flex-col w-3/6 gap-y-8'>
 				<div className='flex justify-center items-center h-96 w-full'>
-					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
+					<img
+						src={nft.image}
+						alt=''
+						className='h-80 rounded-xl shadow-xl'
+					/>
 				</div>
 				<div>
-					<div className='flex justify-center items-center text-black bg-gray-300 font-bold h-16 w-full rounded-lg shadow-xl text-2xl lg:text-lg'>
+					<div className='flex justify-center items-center text-black bg-gray-300 font-bold h-32 w-full rounded-lg shadow-xl text-2xl lg:text-lg'>
 						{nft.description}
 					</div>
 				</div>

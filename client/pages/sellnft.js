@@ -1,19 +1,19 @@
-import { useState, useEffect, useCallback } from 'react'
-import { ethers } from 'ethers'
-import axios from 'axios'
+import { useState, useEffect, useCallback } from "react"
+import { ethers } from "ethers"
+import axios from "axios"
 
-import { nftContractAddress, nftMarketAddress } from '../config.js'
+import { nftContractAddress, nftMarketAddress } from "../config.js"
 
-import NFT from '../utils/NFT.json'
-import Market from '../utils/NFTMarket.json'
+import NFT from "../../artifacts/contracts/NFT.sol/NFT.json"
+import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json"
 
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
 const sellnft = () => {
-	const [price, setPrice] = useState('')
+	const [price, setPrice] = useState("")
 	const [nft, setNft] = useState({})
 	const [id, setId] = useState(null)
-	const [owner, setOwner] = useState('')
+	const [owner, setOwner] = useState("")
 
 	const router = useRouter()
 
@@ -52,12 +52,11 @@ const sellnft = () => {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error fetching token data', error)
+			console.log("Error fetching token data", error)
 		}
 	}
 
-	// Creates transaction to list NFT on the marketplace
-	const sellItem = async () => {
+	const reSellItem = async () => {
 		try {
 			const { ethereum } = window
 
@@ -75,25 +74,25 @@ const sellnft = () => {
 				let listingPrice = await marketContract.getListingPrice()
 				listingPrice = listingPrice.toString()
 
-				const itemPrice = ethers.utils.parseUnits(price, 'ether')
+				const itemPrice = ethers.utils.parseUnits(price, "ether")
 
-				let tx = await marketContract.createMarketItem(
+				let tx = await marketContract.resellNftItem(
 					nftContractAddress,
 					tokenId,
 					itemPrice,
 					{ value: listingPrice }
 				)
-				console.log('Mining:', tx.hash)
+				console.log("Mining:", tx.hash)
 				await tx.wait()
 
-				console.log('Mined!', tx.hash)
+				console.log("Mined!", tx.hash)
 
-				router.push('/explore')
+				router.push("/explore")
 			} else {
 				console.log("Ethereum object doesn't exist!")
 			}
 		} catch (error) {
-			console.log('Error minting character', error)
+			console.log("Error minting character", error)
 		}
 	}
 
@@ -106,7 +105,11 @@ const sellnft = () => {
 		<div className='flex px-60 pt-20 gap-x-20 text-gray-300'>
 			<div className='flex flex-col w-3/6 gap-y-6'>
 				<div className='flex justify-center items-center h-96 w-full'>
-					<img src={nft.image} alt='' className='h-80 rounded-xl shadow-xl' />
+					<img
+						src={nft.image}
+						alt=''
+						className='h-80 rounded-xl shadow-xl'
+					/>
 				</div>
 				<div>
 					<div className='flex font-bold justify-center items-center text-black bg-gray-300  h-16 w-full text-lg rounded-lg shadow-lg'>
@@ -149,7 +152,7 @@ const sellnft = () => {
 						className='h-12 rounded-lg shadow-lg px-4 font-bold text-black bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent'
 					/>
 					<button
-						onClick={sellItem}
+						onClick={reSellItem}
 						className='flex justify-center items-center h-12 rounded-lg shadow-lg bg-green-400 text-black font-bold text-lg cursor-pointer hover:shadow-lg hover:scale-[1.03] transition duration-500 ease-in-out'
 					>
 						Sell
