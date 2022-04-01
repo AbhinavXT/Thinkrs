@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 
-/// @title EternalMarketplace
+/// @title Market
 /// @author Abhinav Pathak
 /// @dev This contract is used to create a marketplace for the Eternal NFTs.
 /// @dev Inherits ReentrancyGuard which is deployed on createEternalMarketItem() and createnftItemSale() functions
