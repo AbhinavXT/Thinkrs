@@ -12,6 +12,7 @@ import { useRouter } from "next/router"
 const profile = () => {
 	const [nfts, setNfts] = useState([])
 	const [boughtNfts, setBoughtNfts] = useState([])
+	const [nftLoading, setNftLoading] = useState(null)
 
 	const router = useRouter()
 
@@ -26,6 +27,7 @@ const profile = () => {
 
 	// Gets data of NFTs bought from the marketplace
 	const loadBoughtNFT = async () => {
+		setNftLoading(0)
 		try {
 			const { ethereum } = window
 
@@ -67,7 +69,8 @@ const profile = () => {
 						return item
 					})
 				)
-				console.log("bought", data)
+
+				setNftLoading(1)
 				setBoughtNfts(items)
 			} else {
 				console.log("Ethereum object doesn't exist!")
@@ -88,7 +91,11 @@ const profile = () => {
 					<div className='text-center text-2xl font-extrabold'>
 						Your NFT Items
 					</div>
-					{boughtNfts.length === 0 ? (
+					{nftLoading === 0 ? (
+						<div className='flex px-auto justify-center items-center font-bold mt-20'>
+							Loading Your NFTs...
+						</div>
+					) : boughtNfts.length === 0 ? (
 						<div className='text-lg text-center font-semibold mt-4'>
 							No NFT items.
 						</div>

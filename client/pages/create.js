@@ -18,6 +18,7 @@ const create = () => {
 	const [name, setName] = useState(``)
 	const [description, setDescription] = useState(``)
 	const [price, setPrice] = useState(null)
+	const [nftLoading, setNftLoading] = useState(null)
 
 	const router = useRouter()
 
@@ -65,6 +66,7 @@ const create = () => {
 	)
 
 	const submit = async () => {
+		setNftLoading(0)
 		const data = JSON.stringify({
 			name: name,
 			description: description,
@@ -138,6 +140,7 @@ const create = () => {
 				console.log(
 					`Mined, see transaction: https://rinkeby.etherscan.io/tx/${marketTx.hash}`
 				)
+				setNftLoading(1)
 
 				router.push("/explore")
 			} else {
@@ -185,6 +188,14 @@ const create = () => {
 				>
 					Submit
 				</button>
+
+				{nftLoading === 0 ? (
+					<div className='flex px-auto justify-center items-center font-bold mt-20'>
+						Proocessing Your Transaction....
+					</div>
+				) : (
+					<div></div>
+				)}
 			</div>
 		</div>
 	)

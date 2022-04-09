@@ -11,12 +11,11 @@ const Hero = () => {
 					Thinkrs is the first media NFT Marketplace which allows you
 					to make money trading news stories.{" "}
 					<span className='hidden lg:inline'>
-						Thinkrs is the first media NFT Marketplace which allows
-						you to make money trading news stories. By Minting under
-						covered stories or topics and selliing it if you think
-						it will gain prominance or should be discovered. You
-						earn rewards with each trade. Make money while ensuring
-						the most important storiesre shown to public.
+						By Minting under covered stories or topics and selliing
+						it if you think it will gain prominance or should be
+						discovered. You earn rewards with each trade. Make money
+						while ensuring the most important storiesre shown to
+						public.
 					</span>
 				</div>
 				<div className='flex gap-x-8 justify-center lg:justify-start'>

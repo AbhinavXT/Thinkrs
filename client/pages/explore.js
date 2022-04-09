@@ -12,6 +12,7 @@ import { useRouter } from "next/router"
 
 export default function Home() {
 	const [nfts, setNfts] = useState([])
+	const [nftLoading, setNftLoading] = useState(null)
 
 	const router = useRouter()
 
@@ -25,6 +26,7 @@ export default function Home() {
 
 	// Fetches the marketplace items put for sale
 	const loadNFT = async () => {
+		setNftLoading(0)
 		try {
 			const { ethereum } = window
 
@@ -69,7 +71,7 @@ export default function Home() {
 						return item
 					})
 				)
-
+				setNftLoading(1)
 				setNfts(items)
 			} else {
 				console.log("Ethereum object doesn't exist!")
@@ -93,54 +95,60 @@ export default function Home() {
 
 			<div className='font-bold text-4xl mt-12'>Explore NFTs</div>
 
-			<div>
-				{nfts.length ? (
-					<div className='flex flex-col justify-center items-center'>
-						<div className='flex justify-center'>
-							<div className='px-4'>
-								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16'>
-									{nfts.map((nft, i) => (
-										<button
-											key={i}
-											onClick={() =>
-												buyToken(
-													nft.tokenId,
-													nft.itemId
-												)
-											}
-											className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
-										>
-											<img
-												src={nft.image}
-												className='w-full h-56 p-4'
-											/>
+			{nftLoading === 0 ? (
+				<div className='flex px-auto justify-center items-center font-bold mt-20'>
+					Loading Marketplace NFTs...
+				</div>
+			) : (
+				<div>
+					{nfts.length ? (
+						<div className='flex flex-col justify-center items-center'>
+							<div className='flex justify-center'>
+								<div className='px-4'>
+									<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16'>
+										{nfts.map((nft, i) => (
+											<button
+												key={i}
+												onClick={() =>
+													buyToken(
+														nft.tokenId,
+														nft.itemId
+													)
+												}
+												className='bg-gray-900 shadow-md shadow-green-500 rounded-lg overflow-hidden w-72 h-80 hover:shadow-green-400 hover:shadow-lg hover:scale-[1.02] transition duration-500 ease-in-out'
+											>
+												<img
+													src={nft.image}
+													className='w-full h-56 p-4'
+												/>
 
-											<div className='flex flex-col font-bold'>
-												<div className='flex justify-between px-4'>
-													<div>Id</div>
-													<div>{nft.tokenId}</div>
+												<div className='flex flex-col font-bold'>
+													<div className='flex justify-between px-4'>
+														<div>Id</div>
+														<div>{nft.tokenId}</div>
+													</div>
+													<div className='flex justify-between px-4'>
+														<div>Name</div>
+														<div>{nft.name}</div>
+													</div>
+													<div className='flex justify-between px-4'>
+														<div>Price</div>
+														<div>{nft.price} Ξ</div>
+													</div>
 												</div>
-												<div className='flex justify-between px-4'>
-													<div>Name</div>
-													<div>{nft.name}</div>
-												</div>
-												<div className='flex justify-between px-4'>
-													<div>Price</div>
-													<div>{nft.price} Ξ</div>
-												</div>
-											</div>
-										</button>
-									))}
+											</button>
+										))}
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				) : (
-					<div className='text-centre font-bold text-xl mt-16'>
-						No Items in Marketplace
-					</div>
-				)}
-			</div>
+					) : (
+						<div className='text-centre font-bold text-xl mt-16'>
+							No Items in Marketplace
+						</div>
+					)}
+				</div>
+			)}
 		</div>
 	)
 }
