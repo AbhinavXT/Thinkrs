@@ -3,8 +3,8 @@ import { ethers } from "ethers"
 
 import { nftContractAddress, nftMarketAddress } from "../config.js"
 
-import NFT from "../../artifacts/contracts/NFT.sol/NFT.json"
-import Market from "../../artifacts/contracts/NFTMarket.sol/NFTMarket.json"
+import NFT from "../utils/NFT.json"
+import Market from "../utils/NFTMarket.json"
 import axios from "axios"
 
 import { useRouter } from "next/router"
